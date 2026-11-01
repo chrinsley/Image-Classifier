@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: image-classifier-api
+    runtime: python
+    plan: starter
+    rootDir: Backend
+    buildCommand: pip install -r requirements-deploy.txt && python manage.py collectstatic --no-input
+    startCommand: python manage.py migrate && gunicorn imageclassifier.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    healthCheckPath: /images/
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /var/data/db.sqlite3
+      - key: MEDIA_ROOT
+        value: /var/data
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+    disk:
+      name: image-classifier-data
+      mountPath: /var/data
+      sizeGB: 1
