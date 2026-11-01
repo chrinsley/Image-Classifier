@@ -13,8 +13,11 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 from pathlib import Path
 import os
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,13 +31,20 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "true").lower() == "true"
 
 ALLOWED_HOSTS = [
     "localhost",
+    "my-backend.onrender.com",
     "127.0.0.1",
     *filter(None, os.environ.get("ALLOWED_HOSTS", "").split(",")),
 ]
 if render_hostname := os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
     ALLOWED_HOSTS.append(render_hostname)
 
-
+CORS_ALLOWED_ORIGINS = [
+    origin
+    for origin in os.environ.get(
+        "CORS_ALLOWED_ORIGINS", ""
+    ).split(",")
+    if origin
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -104,7 +114,7 @@ DATABASES = {
     }
 }
 
-
+DATABASE_URL = 'postgresql://my_django_db_juni_user:l9LE4iSDW2a6gmGj7SjSRjMYCrABJnAW@dpg-dbjj2alg1s2s73fsvbb0-a/my_django_db_juni'
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 

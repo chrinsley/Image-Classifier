@@ -3,6 +3,7 @@
 
 Django==6.0.5
 django-cors-headers==4.9.0
+python-dotenv==1.2.2
 djangorestframework==3.17.1
 gunicorn==26.0.0
 Pillow==12.2.0
