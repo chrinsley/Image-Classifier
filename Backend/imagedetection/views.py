@@ -47,18 +47,18 @@ def imageclassifier(request):
 
             predicted_label = predict_image(image)
 
-    except (UnidentifiedImageError, OSError):
-        return Response(
-            {"error": "The uploaded file is not a valid image"},
-            status=400
-        )
-
     except FileNotFoundError:
         logger.exception("Model checkpoint is missing")
 
         return Response(
             {"error": "The classification model is unavailable"},
             status=503
+        )
+
+    except (UnidentifiedImageError, OSError):
+        return Response(
+            {"error": "The uploaded file is not a valid image"},
+            status=400
         )
 
     except Exception:

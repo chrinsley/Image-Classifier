@@ -46,9 +46,8 @@ def load_classifier():
 
     model = ImageModel()
 
-    # model_state.pth should be inside Backend/
     checkpoint_path = (
-        Path(__file__).resolve().parents[1] / "model_state.pth"
+        Path(__file__).resolve().parents[2] / "model_state.pth"
     )
 
     if not checkpoint_path.exists():
