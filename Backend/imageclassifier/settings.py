@@ -29,12 +29,10 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "local-only-insecure-developmen
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "true").lower() == "true"
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "my-backend.onrender.com",
-    "127.0.0.1",
-    *filter(None, os.environ.get("ALLOWED_HOSTS", "").split(",")),
-]
+ALLOWED_HOSTS = os.getenv(
+    "ALLOWED_HOSTS", "localhost"
+).split(",")
+
 if render_hostname := os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
     ALLOWED_HOSTS.append(render_hostname)
 
